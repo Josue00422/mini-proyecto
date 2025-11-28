@@ -1,0 +1,112 @@
+// Semana X - Derivación Numérica en Scala
+// Autor: Jhandry Naula
+// Tema: Funciones de orden superior, derivadas numéricas y manejo de excepciones
+
+object DerivacionNumerica:
+
+  /** MÉTODOS DE DERIVACIÓN NUMÉRICA **/
+  
+  // 1. Diferencia Finita Adelante
+  def derivadaAdelante(f: Double => Double, x: Double, h: Double): Double =
+    try
+      require(h != 0, "El valor de h no puede ser 0.")
+      (f(x + h) - f(x)) / h
+    catch
+      case e: Exception =>
+        println(s"[Error en derivadaAdelante] ${e.getMessage}")
+        Double.NaN
+
+
+  // 2. Diferencia Finita Centrada
+  def derivadaCentrada(f: Double => Double, x: Double, h: Double): Double =
+    try
+      require(h != 0, "El valor de h no puede ser 0.")
+      (f(x + h) - f(x - h)) / (2 * h)
+    catch
+      case e: Exception =>
+        println(s"[Error en derivadaCentrada] ${e.getMessage}")
+        Double.NaN
+
+
+  // 3. Diferencia Finita Atrás
+  def derivadaAtras(f: Double => Double, x: Double, h: Double): Double =
+    try
+      require(h != 0, "El valor de h no puede ser 0.")
+      (f(x) - f(x - h)) / h
+    catch
+      case e: Exception =>
+        println(s"[Error en derivadaAtras] ${e.getMessage}")
+        Double.NaN
+
+
+  /** FUNCIÓN PARA CALCULAR ERROR ABSOLUTO **/
+  def calcularError(real: Double, aproximado: Double): Double =
+    try
+      Math.abs(real - aproximado)
+    catch
+      case e: Exception =>
+        println(s"[Error en calcularError] ${e.getMessage}")
+        Double.NaN
+
+
+  /** PRUEBAS DE LOS MÉTODOS (como pide el documento) **/
+  def main(args: Array[String]): Unit =
+    val h = 0.0001
+
+    println("===== COMPARACIÓN DE MÉTODOS =====")
+
+    // ===== FUNCIÓN 1 =====
+    // f(x) = x^3 + 2x + 1 ; f'(x) = 3x^2 + 2
+    def f1(x: Double): Double = x*x*x + 2*x + 1
+    def f1p(x: Double): Double = 3*x*x + 2
+
+    val x1 = 2
+    val real1 = f1p(x1)
+
+    val adelante1 = derivadaAdelante(f1, x1, h)
+    val centrada1 = derivadaCentrada(f1, x1, h)
+    val atras1 = derivadaAtras(f1, x1, h)
+
+    println("\n--- Función 1 ---")
+    println(s"Real: $real1")
+    println(s"Adelante: $adelante1   Error: ${calcularError(real1, adelante1)}")
+    println(s"Centrada: $centrada1   Error: ${calcularError(real1, centrada1)}")
+    println(s"Atrás: $atras1         Error: ${calcularError(real1, atras1)}")
+
+    
+    // ===== FUNCIÓN 2 =====
+    // f(x) = sin(x) ; f'(x) = cos(x)
+    def f2(x: Double): Double = Math.sin(x)
+    def f2p(x: Double): Double = Math.cos(x)
+
+    val x2 = Math.PI / 3
+    val real2 = f2p(x2)
+
+    val adelante2 = derivadaAdelante(f2, x2, h)
+    val centrada2 = derivadaCentrada(f2, x2, h)
+    val atras2 = derivadaAtras(f2, x2, h)
+
+    println("\n--- Función 2 ---")
+    println(s"Real: $real2")
+    println(s"Adelante: $adelante2   Error: ${calcularError(real2, adelante2)}")
+    println(s"Centrada: $centrada2   Error: ${calcularError(real2, centrada2)}")
+    println(s"Atrás: $atras2         Error: ${calcularError(real2, atras2)}")
+
+
+    // ===== FUNCIÓN 3 =====
+    // f(x) = e^x ; f'(x) = e^x
+    def f3(x: Double): Double = Math.exp(x)
+    def f3p(x: Double): Double = Math.exp(x)
+
+    val x3 = 1
+    val real3 = f3p(x3)
+
+    val adelante3 = derivadaAdelante(f3, x3, h)
+    val centrada3 = derivadaCentrada(f3, x3, h)
+    val atras3 = derivadaAtras(f3, x3, h)
+
+    println("\n--- Función 3 ---")
+    println(s"Real: $real3")
+    println(s"Adelante: $adelante3   Error: ${calcularError(real3, adelante3)}")
+    println(s"Centrada: $centrada3   Error: ${calcularError(real3, centrada3)}")
+    println(s"Atrás: $atras3         Error: ${calcularError(real3, atras3)}")
