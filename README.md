@@ -29,8 +29,6 @@ Error = |valor_real − valor_aproximado|
 
 ## Archivos Incluidos
 - Código Scala completo en `DerivacionNumerica.scala`
-- Informe en formato DOCX
-- README.md con documentación del proyecto
 
 ## Autor
 **Jhandry Naula**
